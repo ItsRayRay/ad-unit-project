@@ -432,24 +432,17 @@ import { config } from '../config.js';
 					<section class="content-section">
 						<h2>Introduction to Modern Ad Formats</h2>
 						<p>
-							In today's digital landscape, advertising has evolved far beyond simple banner ads and pop-ups.
-							Modern ad formats leverage cutting-edge technology to create immersive experiences that engage
-							users without disrupting their content consumption.
+							In today's digital landscape, advertising has evolved far beyond simple banner ads. Modern formats
+							leverage cutting-edge technology to create immersive experiences without disrupting content consumption.
 						</p>
 						<p>
-							The rise of programmatic advertising has enabled unprecedented targeting capabilities, allowing
-							brands to reach the right audience at the right time with the right message. But technology alone
-							isn't enough—creative execution matters more than ever.
+							The most successful campaigns combine data-driven insights with compelling storytelling and innovative
+							formats. Rich media, video ads, and interactive experiences are becoming the new standard.
 						</p>
 						<p>
-							The most successful campaigns combine data-driven insights with compelling storytelling and
-							innovative formats that capture attention in an increasingly crowded digital space. Rich media
-							formats, video ads, and interactive experiences are becoming the new standard.
-						</p>
-						<p>
-							One of the most exciting developments in recent years has been the integration of motion and
-							interactivity into display advertising. These dynamic formats create visual interest through
-							subtle animations, parallax effects, and responsive design elements that adapt to user behavior.
+							One of the most exciting developments has been the integration of motion into display advertising.
+							Dynamic formats create visual interest through subtle animations, parallax effects, and responsive
+							design elements.
 						</p>
 					</section>
 
@@ -472,24 +465,12 @@ import { config } from '../config.js';
 					<section class="content-section">
 						<h2>The Psychology of Attention</h2>
 						<p>
-							Understanding how users interact with content online is crucial for creating effective advertising.
-							Movement and animation naturally draw the eye, which is why dynamic ad formats can be so effective
-							when used appropriately.
+							Movement and animation naturally draw the eye, which is why dynamic ad formats can be so effective.
+							The key is subtlety and relevance—ads that complement content rather than interrupt it.
 						</p>
 						<p>
-							Research shows that the average person's attention span online is remarkably short—often just a
-							few seconds. This means advertisers have a tiny window to make an impression. The challenge is to
-							create ads that are engaging without being intrusive or annoying.
-						</p>
-						<p>
-							However, there's a fine line between engaging and annoying. The key is subtlety and relevance.
-							Ads that complement the surrounding content, rather than interrupting it, tend to perform better
-							across all metrics. This is where sophisticated techniques like parallax scrolling come into play.
-						</p>
-						<p>
-							By tying ad animations to the user's natural scrolling behavior, we create experiences that feel
-							organic rather than intrusive. Studies have demonstrated that users are more likely to recall brands
-							advertised through these contextually-integrated formats.
+							By tying animations to natural scrolling behavior, we create experiences that feel organic. Studies
+							show users are more likely to recall brands advertised through these contextually-integrated formats.
 						</p>
 					</section>
 
@@ -512,15 +493,9 @@ import { config } from '../config.js';
 					<section class="content-section">
 						<h2>Looking Ahead</h2>
 						<p>
-							As we look toward the future, several trends are emerging that will shape the next generation of
-							digital advertising. Artificial intelligence and machine learning are enabling hyper-personalization
-							at scale, while privacy-first approaches are reshaping how we think about targeting and measurement.
-						</p>
-						<p>
-							The advertising industry has always been at the forefront of adopting new technologies and pushing
-							creative boundaries. As we continue to innovate, the fundamental challenge remains the same: how
-							do we capture attention and deliver messages in ways that are effective for advertisers, beneficial
-							for publishers, and respectful of users?
+							AI and machine learning are enabling hyper-personalization at scale, while privacy-first approaches
+							reshape targeting and measurement. The fundamental challenge remains: capturing attention in ways
+							that are effective, beneficial, and respectful.
 						</p>
 					</section>
 				</div>
@@ -546,25 +521,25 @@ import { config } from '../config.js';
 				const isDesktop = window.innerWidth >= 768;
 				const scrollContainer = isDesktop ? document.querySelector('.phone-screen') : null;
 
-				// First ad unit - slides UP from below (hidden to visible)
-				// Animation starts after 20% visible, completes at center
+				// First ad unit - starts VISIBLE, slides DOWN/OUT as you scroll
+				// Creates transition effect to second ad
 				const adUnit1 = document.querySelector('[data-ad="unit-1"] .parallax-up');
 				if (adUnit1) {
 					const animation1 = animate(
 						adUnit1,
 						{
-							// Slide up from below
-							transform: ["translateY(80%)", "translateY(0%)"]
+							// Start fully visible, slide down and out to bottom
+							transform: ["translateY(0%)", "translateY(80%)"]
 						},
 						{
-							ease: "ease-out"
+							ease: "ease-in"
 						}
 					);
 
 					const scrollOptions = {
 						target: adUnit1,
-						// Start animating when ~30% visible, complete at center
-						offset: ["start 70%", "center 50%"]
+						// Start sliding out as it leaves viewport center
+						offset: ["center 50%", "end 30%"]
 					};
 
 					// On desktop, track scroll in phone-screen container
