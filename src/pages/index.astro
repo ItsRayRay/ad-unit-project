@@ -547,23 +547,24 @@ import { config } from '../config.js';
 				const scrollContainer = isDesktop ? document.querySelector('.phone-screen') : null;
 
 				// First ad unit - slides UP from below (hidden to visible)
+				// Animation starts after 20% visible, completes at center
 				const adUnit1 = document.querySelector('[data-ad="unit-1"] .parallax-up');
 				if (adUnit1) {
 					const animation1 = animate(
 						adUnit1,
 						{
-							// Start partially visible, slide up to fully visible
-							transform: ["translateY(60%)", "translateY(0%)"]
+							// Slide up from below
+							transform: ["translateY(80%)", "translateY(0%)"]
 						},
 						{
-							ease: "linear"
+							ease: "ease-out"
 						}
 					);
 
 					const scrollOptions = {
 						target: adUnit1,
-						// Animation completes when ad is centered in viewport
-						offset: ["start end", "center center"]
+						// Start animating when ~30% visible, complete at center
+						offset: ["start 70%", "center 50%"]
 					};
 
 					// On desktop, track scroll in phone-screen container
@@ -575,23 +576,24 @@ import { config } from '../config.js';
 				}
 
 				// Second ad unit - slides DOWN from above (hidden to visible)
+				// Animation starts after 20% visible, completes at center
 				const adUnit2 = document.querySelector('[data-ad="unit-2"] .parallax-down');
 				if (adUnit2) {
 					const animation2 = animate(
 						adUnit2,
 						{
-							// Start partially visible, slide down to fully visible
-							transform: ["translateY(-60%)", "translateY(0%)"]
+							// Slide down from above
+							transform: ["translateY(-80%)", "translateY(0%)"]
 						},
 						{
-							ease: "linear"
+							ease: "ease-out"
 						}
 					);
 
 					const scrollOptions2 = {
 						target: adUnit2,
-						// Animation completes when ad is centered in viewport
-						offset: ["start end", "center center"]
+						// Start animating when ~30% visible, complete at center
+						offset: ["start 70%", "center 50%"]
 					};
 
 					// On desktop, track scroll in phone-screen container
