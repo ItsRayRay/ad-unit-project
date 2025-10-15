@@ -5,7 +5,7 @@ export const config = {
   // Update this URL to your deployed demo URL
   // For local development: http://localhost:4322
   // For production: https://yourdomain.com
-  demoUrl: 'http://localhost:4322',
+  demoUrl: 'https://ad-unit-project-git-main-itsrayrays-projects.vercel.app',
 
   // ============================================
   // QR CODE CONFIGURATION
