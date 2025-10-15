@@ -1,16 +1,629 @@
 ---
-
+import { config } from '../config.js';
 ---
 
 <html lang="en">
 	<head>
 		<meta charset="utf-8" />
 		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<meta name="viewport" content="width=device-width" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
 		<meta name="generator" content={Astro.generator} />
-		<title>Astro</title>
+		<title>The Future of Digital Advertising | Mobile Preview</title>
+		<link rel="preconnect" href="https://fonts.googleapis.com">
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+		<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+		<style>
+			* {
+				margin: 0;
+				padding: 0;
+				box-sizing: border-box;
+			}
+
+			body {
+				font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+				line-height: 1.6;
+				color: #2d3748;
+				background: #e5e7eb;
+			}
+
+			/* Desktop: Phone frame wrapper with background */
+			@media (min-width: 768px) {
+				body {
+					background: linear-gradient(180deg, #4a5568 0%, #2d3748 100%);
+					min-height: 100vh;
+					display: flex;
+					align-items: center;
+					justify-content: center;
+					padding: 60px 20px;
+				}
+
+				body::before {
+					content: '';
+					position: fixed;
+					top: 0;
+					left: 0;
+					width: 100%;
+					height: 100%;
+					background: url('https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1920&q=80') center/cover;
+					opacity: 0.3;
+					z-index: -1;
+				}
+			}
+
+			/* Phone Frame Container (Desktop only) */
+			.phone-frame {
+				position: relative;
+				width: 100%;
+			}
+
+			@media (min-width: 768px) {
+				.phone-frame {
+					width: 375px;
+					background: #1a1a1a;
+					border-radius: 50px;
+					padding: 15px;
+					box-shadow:
+						0 30px 60px rgba(0, 0, 0, 0.5),
+						0 0 0 1px rgba(255, 255, 255, 0.1),
+						inset 0 0 0 1px rgba(255, 255, 255, 0.05);
+					position: relative;
+				}
+
+				/* iPhone notch */
+				.phone-frame::before {
+					content: '';
+					position: absolute;
+					top: 15px;
+					left: 50%;
+					transform: translateX(-50%);
+					width: 150px;
+					height: 30px;
+					background: #1a1a1a;
+					border-radius: 0 0 20px 20px;
+					z-index: 100;
+				}
+
+				/* Camera dot */
+				.phone-frame::after {
+					content: '';
+					position: absolute;
+					top: 24px;
+					left: 50%;
+					transform: translateX(-40px);
+					width: 10px;
+					height: 10px;
+					background: #2a2a2a;
+					border-radius: 50%;
+					z-index: 101;
+				}
+			}
+
+			/* Phone Screen */
+			.phone-screen {
+				width: 100%;
+				background: white;
+				overflow: hidden;
+				position: relative;
+			}
+
+			@media (min-width: 768px) {
+				.phone-screen {
+					border-radius: 35px;
+					height: 812px;
+					overflow-y: auto;
+					overflow-x: hidden;
+					/* Hide scrollbar */
+					scrollbar-width: none; /* Firefox */
+					-ms-overflow-style: none; /* IE/Edge */
+				}
+
+				.phone-screen::-webkit-scrollbar {
+					display: none; /* Chrome/Safari/Opera */
+				}
+
+				/* Browser Chrome (Top) */
+				.browser-chrome-top {
+					display: none;
+					position: sticky;
+					top: 0;
+					width: 100%;
+					height: 44px;
+					background: #f7f7f7;
+					border-bottom: 1px solid #d1d1d1;
+					z-index: 90;
+					padding: 8px 12px;
+				}
+
+				.address-bar {
+					background: white;
+					border-radius: 8px;
+					padding: 6px 12px;
+					font-size: 13px;
+					color: #666;
+					border: 1px solid #d1d1d1;
+					display: flex;
+					align-items: center;
+					gap: 8px;
+				}
+
+				.address-bar::before {
+					content: '🔒';
+					font-size: 12px;
+				}
+
+				/* Browser Chrome (Bottom) */
+				.browser-chrome-bottom {
+					display: flex;
+					position: sticky;
+					bottom: 0;
+					width: 100%;
+					height: 50px;
+					background: rgba(247, 247, 247, 0.95);
+					backdrop-filter: blur(20px);
+					border-top: 1px solid #d1d1d1;
+					z-index: 90;
+					align-items: center;
+					justify-content: space-around;
+					padding: 0 20px;
+				}
+
+				.nav-button {
+					font-size: 24px;
+					color: #007AFF;
+					opacity: 0.6;
+				}
+			}
+
+			@media (max-width: 767px) {
+				.browser-chrome-top,
+				.browser-chrome-bottom {
+					display: none;
+				}
+			}
+
+			/* Mobile Content Container */
+			.container {
+				width: 100%;
+				max-width: 375px;
+				margin: 0 auto;
+				background: white;
+				min-height: 100vh;
+			}
+
+			.blog-header {
+				padding: 30px 20px 20px;
+				background: white;
+				border-bottom: 1px solid #e5e7eb;
+			}
+
+			.blog-header h1 {
+				font-size: 1.5rem;
+				margin-bottom: 0.8rem;
+				font-weight: 700;
+				color: #1a202c;
+				line-height: 1.3;
+			}
+
+			.blog-meta {
+				font-size: 0.75rem;
+				color: #6b7280;
+				font-weight: 400;
+			}
+
+			.content-section {
+				padding: 20px;
+			}
+
+			.content-section h2 {
+				font-size: 1.25rem;
+				margin-bottom: 0.75rem;
+				color: #1a202c;
+				font-weight: 600;
+			}
+
+			.content-section p {
+				font-size: 0.95rem;
+				line-height: 1.7;
+				margin-bottom: 1rem;
+				color: #4a5568;
+				font-weight: 400;
+			}
+
+			/* Mobile Ad Unit Styles */
+			.ad-unit {
+				width: 100%;
+				height: 400px;
+				margin: 30px 0;
+				position: relative;
+				overflow: hidden;
+				background: #e2e8f0;
+				border-top: 1px solid #cbd5e0;
+				border-bottom: 1px solid #cbd5e0;
+			}
+
+			.ad-label {
+				position: absolute;
+				top: 8px;
+				left: 8px;
+				background: rgba(0, 0, 0, 0.5);
+				color: white;
+				padding: 3px 6px;
+				font-size: 0.65rem;
+				border-radius: 3px;
+				z-index: 10;
+				text-transform: uppercase;
+				letter-spacing: 0.5px;
+			}
+
+			.ad-content {
+				width: 100%;
+				height: 100%;
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				position: relative;
+			}
+
+			/* Creative Structure - Mobile optimized */
+			.creative-wrapper {
+				width: 100%;
+				height: 100%;
+				display: flex;
+				flex-direction: column;
+				position: relative;
+			}
+
+			/* Top section: Products side-by-side */
+			.creative-top {
+				flex: 1;
+				display: flex;
+				background: linear-gradient(135deg, #8B4513 0%, #A0522D 100%);
+			}
+
+			/* Product Main (Left): 187.5px x 320px */
+			.product-main {
+				flex: 1;
+				background: linear-gradient(135deg, #FFA500 0%, #FFD700 100%);
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				font-size: 1.5rem;
+				color: white;
+				text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+				background-size: cover;
+				background-position: center;
+				/* Mobile: 187.5px × 320px - To replace: background-image: url('/creatives/mobile-product-main-1.jpg'); */
+			}
+
+			/* Product Secondary (Right): 187.5px x 320px */
+			.product-secondary {
+				flex: 1;
+				background: linear-gradient(135deg, #4169E1 0%, #87CEEB 100%);
+				background-size: cover;
+				background-position: center;
+				/* Mobile: 187.5px × 320px - To replace: background-image: url('/creatives/mobile-product-secondary-1.jpg'); */
+			}
+
+			/* CTA Banner (Bottom): 375px x 80px */
+			.cta-banner {
+				height: 80px;
+				background: linear-gradient(135deg, #FFE135 0%, #FFF200 100%);
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				font-weight: bold;
+				color: #333;
+				font-size: 0.95rem;
+				background-size: cover;
+				background-position: center;
+				/* Mobile: 375px × 80px - To replace: background-image: url('/creatives/mobile-cta-banner-1.jpg'); */
+			}
+
+			/* QR Code (Desktop only) */
+			.qr-code {
+				display: none;
+			}
+
+			@media (min-width: 768px) {
+				.qr-code {
+					display: block;
+					position: fixed;
+					bottom: 40px;
+					left: 40px;
+					background: white;
+					padding: 15px;
+					border-radius: 12px;
+					box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+				}
+
+				.qr-code-label {
+					font-size: 0.75rem;
+					color: #374151;
+					margin-bottom: 8px;
+					font-weight: 500;
+				}
+
+				.qr-code-image {
+					width: 120px;
+					height: 120px;
+					border-radius: 8px;
+					display: flex;
+					align-items: center;
+					justify-content: center;
+					overflow: hidden;
+				}
+
+				.qr-code-image canvas {
+					display: block;
+					border-radius: 8px;
+				}
+			}
+		</style>
+
+		<!-- Creative background images from config -->
+		<style define:vars={{
+			adUnit1ProductMain: config.creatives.adUnit1.productMain,
+			adUnit1ProductSecondary: config.creatives.adUnit1.productSecondary,
+			adUnit1CtaBanner: config.creatives.adUnit1.ctaBanner,
+			adUnit2ProductMain: config.creatives.adUnit2.productMain,
+			adUnit2ProductSecondary: config.creatives.adUnit2.productSecondary,
+			adUnit2CtaBanner: config.creatives.adUnit2.ctaBanner
+		}}>
+			/* ============================================ */
+			/* CREATIVE BACKGROUNDS - MANAGED FROM CONFIG */
+			/* Update paths in src/config.js */
+			/* ============================================ */
+
+			/* Ad Unit 1 */
+			[data-ad="unit-1"] .product-main {
+				background-image: url(var(--adUnit1ProductMain));
+			}
+
+			[data-ad="unit-1"] .product-secondary {
+				background-image: url(var(--adUnit1ProductSecondary));
+			}
+
+			[data-ad="unit-1"] .cta-banner {
+				background-image: url(var(--adUnit1CtaBanner));
+			}
+
+			/* Ad Unit 2 */
+			[data-ad="unit-2"] .product-main {
+				background-image: url(var(--adUnit2ProductMain));
+			}
+
+			[data-ad="unit-2"] .product-secondary {
+				background-image: url(var(--adUnit2ProductSecondary));
+			}
+
+			[data-ad="unit-2"] .cta-banner {
+				background-image: url(var(--adUnit2CtaBanner));
+			}
+		</style>
 	</head>
 	<body>
-		<h1>Astro</h1>
+		<!-- QR Code (Desktop only) -->
+		<div class="qr-code">
+			<div class="qr-code-label">View on Mobile</div>
+			<div class="qr-code-image">
+				<canvas id="qr-canvas"></canvas>
+			</div>
+		</div>
+
+		<!-- Phone Frame (Desktop only) -->
+		<div class="phone-frame">
+			<div class="phone-screen">
+				<!-- Browser Chrome Top (Desktop only) -->
+				<div class="browser-chrome-top">
+					<div class="address-bar">blog.example.com</div>
+				</div>
+
+				<!-- Mobile Content -->
+				<div class="container">
+					<!-- Header -->
+					<header class="blog-header">
+						<h1>The Future of Digital Advertising</h1>
+						<div class="blog-meta">
+							By Sarah Johnson | October 15, 2025
+						</div>
+					</header>
+
+					<!-- First Content Section -->
+					<section class="content-section">
+						<h2>Introduction to Modern Ad Formats</h2>
+						<p>
+							In today's digital landscape, advertising has evolved far beyond simple banner ads and pop-ups.
+							Modern ad formats leverage cutting-edge technology to create immersive experiences that engage
+							users without disrupting their content consumption.
+						</p>
+						<p>
+							The rise of programmatic advertising has enabled unprecedented targeting capabilities, allowing
+							brands to reach the right audience at the right time with the right message. But technology alone
+							isn't enough—creative execution matters more than ever.
+						</p>
+						<p>
+							The most successful campaigns combine data-driven insights with compelling storytelling and
+							innovative formats that capture attention in an increasingly crowded digital space. Rich media
+							formats, video ads, and interactive experiences are becoming the new standard.
+						</p>
+						<p>
+							One of the most exciting developments in recent years has been the integration of motion and
+							interactivity into display advertising. These dynamic formats create visual interest through
+							subtle animations, parallax effects, and responsive design elements that adapt to user behavior.
+						</p>
+					</section>
+
+					<!-- First Ad Unit - Slides UP -->
+					<div class="ad-unit" data-ad="unit-1">
+						<span class="ad-label">Advertisement</span>
+						<div class="ad-content">
+							<!-- CREATIVE #1: Managed from src/config.js -->
+							<div class="creative-wrapper parallax-up">
+								<div class="creative-top">
+									<div class="product-main">{config.creatives.adUnit1.fallbackText.productMain}</div>
+									<div class="product-secondary"></div>
+								</div>
+								<div class="cta-banner">{config.creatives.adUnit1.fallbackText.ctaBanner}</div>
+							</div>
+						</div>
+					</div>
+
+					<!-- Second Content Section -->
+					<section class="content-section">
+						<h2>The Psychology of Attention</h2>
+						<p>
+							Understanding how users interact with content online is crucial for creating effective advertising.
+							Movement and animation naturally draw the eye, which is why dynamic ad formats can be so effective
+							when used appropriately.
+						</p>
+						<p>
+							Research shows that the average person's attention span online is remarkably short—often just a
+							few seconds. This means advertisers have a tiny window to make an impression. The challenge is to
+							create ads that are engaging without being intrusive or annoying.
+						</p>
+						<p>
+							However, there's a fine line between engaging and annoying. The key is subtlety and relevance.
+							Ads that complement the surrounding content, rather than interrupting it, tend to perform better
+							across all metrics. This is where sophisticated techniques like parallax scrolling come into play.
+						</p>
+						<p>
+							By tying ad animations to the user's natural scrolling behavior, we create experiences that feel
+							organic rather than intrusive. Studies have demonstrated that users are more likely to recall brands
+							advertised through these contextually-integrated formats.
+						</p>
+					</section>
+
+					<!-- Second Ad Unit - Slides DOWN -->
+					<div class="ad-unit" data-ad="unit-2">
+						<span class="ad-label">Advertisement</span>
+						<div class="ad-content">
+							<!-- CREATIVE #2: Managed from src/config.js -->
+							<div class="creative-wrapper parallax-down">
+								<div class="creative-top">
+									<div class="product-main">{config.creatives.adUnit2.fallbackText.productMain}</div>
+									<div class="product-secondary"></div>
+								</div>
+								<div class="cta-banner">{config.creatives.adUnit2.fallbackText.ctaBanner}</div>
+							</div>
+						</div>
+					</div>
+
+					<!-- Third Content Section -->
+					<section class="content-section">
+						<h2>Looking Ahead</h2>
+						<p>
+							As we look toward the future, several trends are emerging that will shape the next generation of
+							digital advertising. Artificial intelligence and machine learning are enabling hyper-personalization
+							at scale, while privacy-first approaches are reshaping how we think about targeting and measurement.
+						</p>
+						<p>
+							The advertising industry has always been at the forefront of adopting new technologies and pushing
+							creative boundaries. As we continue to innovate, the fundamental challenge remains the same: how
+							do we capture attention and deliver messages in ways that are effective for advertisers, beneficial
+							for publishers, and respectful of users?
+						</p>
+					</section>
+				</div>
+
+				<!-- Browser Chrome Bottom (Desktop only) -->
+				<div class="browser-chrome-bottom">
+					<div class="nav-button">←</div>
+					<div class="nav-button">→</div>
+					<div class="nav-button">+</div>
+					<div class="nav-button">⊡</div>
+					<div class="nav-button">⋯</div>
+				</div>
+			</div>
+		</div>
+
+		<script>
+			import { animate, scroll } from "motion";
+			import QRCode from "qrcode";
+
+			// Wait for DOM to be fully loaded
+			document.addEventListener('DOMContentLoaded', () => {
+				// Detect if we're on desktop (in phone frame) or mobile
+				const isDesktop = window.innerWidth >= 768;
+				const scrollContainer = isDesktop ? document.querySelector('.phone-screen') : null;
+
+				// First ad unit - slides UP from below (hidden to visible)
+				const adUnit1 = document.querySelector('[data-ad="unit-1"] .parallax-up');
+				if (adUnit1) {
+					const animation1 = animate(
+						adUnit1,
+						{
+							// Start partially visible, slide up to fully visible
+							transform: ["translateY(60%)", "translateY(0%)"]
+						},
+						{
+							ease: "linear"
+						}
+					);
+
+					const scrollOptions = {
+						target: adUnit1,
+						// Animation completes when ad is centered in viewport
+						offset: ["start end", "center center"]
+					};
+
+					// On desktop, track scroll in phone-screen container
+					if (scrollContainer) {
+						scrollOptions.container = scrollContainer;
+					}
+
+					scroll(animation1, scrollOptions);
+				}
+
+				// Second ad unit - slides DOWN from above (hidden to visible)
+				const adUnit2 = document.querySelector('[data-ad="unit-2"] .parallax-down');
+				if (adUnit2) {
+					const animation2 = animate(
+						adUnit2,
+						{
+							// Start partially visible, slide down to fully visible
+							transform: ["translateY(-60%)", "translateY(0%)"]
+						},
+						{
+							ease: "linear"
+						}
+					);
+
+					const scrollOptions2 = {
+						target: adUnit2,
+						// Animation completes when ad is centered in viewport
+						offset: ["start end", "center center"]
+					};
+
+					// On desktop, track scroll in phone-screen container
+					if (scrollContainer) {
+						scrollOptions2.container = scrollContainer;
+					}
+
+					scroll(animation2, scrollOptions2);
+				}
+
+				// Generate QR Code
+				const qrCanvas = document.getElementById('qr-canvas');
+				if (qrCanvas) {
+					// Get config from data attribute
+					const demoUrl = qrCanvas.dataset.url || window.location.href;
+					const qrOptions = JSON.parse(qrCanvas.dataset.options || '{}');
+
+					QRCode.toCanvas(qrCanvas, demoUrl, qrOptions, function (error) {
+						if (error) {
+							console.error('QR Code generation failed:', error);
+						}
+					});
+				}
+			});
+		</script>
+		<script define:vars={{ demoUrl: config.demoUrl, qrOptions: config.qrCode }}>
+			// Pass config to canvas via data attributes
+			const canvas = document.getElementById('qr-canvas');
+			if (canvas) {
+				canvas.dataset.url = demoUrl;
+				canvas.dataset.options = JSON.stringify(qrOptions);
+			}
+		</script>
 	</body>
 </html>
