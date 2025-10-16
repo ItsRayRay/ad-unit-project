@@ -51,7 +51,7 @@ export const config = {
       layerBackground: 'url(/creatives/fiat-background.png)',  // Layer 1: BG.png - Background
       layerText: 'url(/creatives/fiat-text.png)',              // Layer 2: Second Product.png
       layerCar: 'url(/creatives/fiat-car.png)',                // Layer 3: Main Product.png
-      layerRocks: 'url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNkYPhfDwAChwGA60e6kgAAAABJRU5ErkJggg==)', // Transparent 1x1 PNG
+      layerRocks: 'url(/creatives/fiat-rocks.png)',            // Layer 4: Rocks overlay
 
       // Fallback text (not used with layer system, but kept for compatibility)
       fallbackText: {
