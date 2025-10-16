@@ -60,13 +60,14 @@ export const config = {
       }
     },
 
-    // Ad Unit 2 (slides DOWN from above)
+    // Ad Unit 2 (falls down - 4 layer system)
     adUnit2: {
-      productMain: '/creatives/ad2-product-main.jpg',     // Left section
-      productSecondary: '/creatives/ad2-product-secondary.jpg', // Right section
-      ctaBanner: '/creatives/ad2-cta-banner.jpg',         // Bottom section
+      layerBackground: 'url(/creatives/adunit2/background.png)',  // Layer 1: Background (placeholder)
+      layerText: 'url(/creatives/adunit2/text.png)',              // Layer 2: Text overlay (placeholder)
+      layerCar: 'url(/creatives/adunit2/car.png)',                // Layer 3: Car (placeholder)
+      layerForeground: 'url(/creatives/adunit2/foreground.png)',  // Layer 4: Foreground elements
 
-      // Fallback text (displayed if images don't load)
+      // Fallback text (not used with layer system, but kept for compatibility)
       fallbackText: {
         productMain: 'PURE',
         ctaBanner: 'Nature\'s Essence'

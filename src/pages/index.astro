@@ -383,6 +383,61 @@ import { config } from '../config.js';
 				display: none;
 			}
 
+			/* ============================================ */
+			/* AD UNIT 2 - FALLING STACK (SCOPED) */
+			/* ============================================ */
+
+			[data-ad="unit-2"] .creative-wrapper.parallax-down {
+				position: relative;
+				z-index: 2; /* ensure moving layers sit above fixed background */
+			}
+
+			/* Fixed layers (outside wrapper) */
+			[data-ad="unit-2"] .layer-background,
+			[data-ad="unit-2"] .layer-foreground {
+				position: absolute;
+				width: 100%;
+				height: 100%;
+				top: 0;
+				left: 0;
+				pointer-events: none;
+				background-repeat: no-repeat;
+			}
+
+			[data-ad="unit-2"] .layer-background {
+				z-index: 1;
+				background-size: cover;
+				background-position: center;
+			}
+
+			[data-ad="unit-2"] .layer-foreground {
+				z-index: 4;
+				background-size: contain;
+				background-position: center bottom;
+			}
+
+			/* Moving layers inside wrapper */
+			[data-ad="unit-2"] .layer-text,
+			[data-ad="unit-2"] .layer-car {
+				position: absolute;
+				width: 100%;
+				height: 100%;
+				top: 0;
+				left: 0;
+				background-size: contain;
+				background-position: center;
+				background-repeat: no-repeat;
+				pointer-events: none;
+			}
+
+			[data-ad="unit-2"] .layer-text {
+				z-index: 2;
+			}
+
+			[data-ad="unit-2"] .layer-car {
+				z-index: 3;
+			}
+
 			@media (min-width: 768px) {
 				.qr-code {
 					display: block;
@@ -425,9 +480,10 @@ import { config } from '../config.js';
 			adUnit1LayerText: config.creatives.adUnit1.layerText,
 			adUnit1LayerCar: config.creatives.adUnit1.layerCar,
 			adUnit1LayerRocks: config.creatives.adUnit1.layerRocks,
-			adUnit2ProductMain: config.creatives.adUnit2.productMain,
-			adUnit2ProductSecondary: config.creatives.adUnit2.productSecondary,
-			adUnit2CtaBanner: config.creatives.adUnit2.ctaBanner
+			adUnit2LayerBackground: config.creatives.adUnit2.layerBackground,
+			adUnit2LayerText: config.creatives.adUnit2.layerText,
+			adUnit2LayerCar: config.creatives.adUnit2.layerCar,
+			adUnit2LayerForeground: config.creatives.adUnit2.layerForeground
 		}}>
 			/* ============================================ */
 			/* CREATIVE BACKGROUNDS - MANAGED FROM CONFIG */
@@ -451,17 +507,21 @@ import { config } from '../config.js';
 				background-image: var(--adUnit1LayerRocks);
 			}
 
-			/* Ad Unit 2 */
-			[data-ad="unit-2"] .product-main {
-				background-image: url(var(--adUnit2ProductMain));
+			/* Ad Unit 2 - Falling Stack */
+			[data-ad="unit-2"] .layer-background {
+				background-image: var(--adUnit2LayerBackground);
 			}
 
-			[data-ad="unit-2"] .product-secondary {
-				background-image: url(var(--adUnit2ProductSecondary));
+			[data-ad="unit-2"] .layer-text {
+				background-image: var(--adUnit2LayerText);
 			}
 
-			[data-ad="unit-2"] .cta-banner {
-				background-image: url(var(--adUnit2CtaBanner));
+			[data-ad="unit-2"] .layer-car {
+				background-image: var(--adUnit2LayerCar);
+			}
+
+			[data-ad="unit-2"] .layer-foreground {
+				background-image: var(--adUnit2LayerForeground);
 			}
 		</style>
 	</head>
@@ -545,13 +605,15 @@ import { config } from '../config.js';
 						<span class="ad-label">Advertisement</span>
 						<div class="ad-content">
 							<!-- CREATIVE #2: Managed from src/config.js -->
+							<!-- Background stays fixed -->
+							<div class="layer-background"></div>
 							<div class="creative-wrapper parallax-down">
-								<div class="creative-top">
-									<div class="product-main">{config.creatives.adUnit2.fallbackText.productMain}</div>
-									<div class="product-secondary"></div>
-								</div>
-								<div class="cta-banner">{config.creatives.adUnit2.fallbackText.ctaBanner}</div>
+								<!-- Moving layers fall into place -->
+								<div class="layer-text"></div>
+								<div class="layer-car"></div>
 							</div>
+							<!-- Foreground overlay fixed on top -->
+							<div class="layer-foreground"></div>
 						</div>
 					</div>
 
