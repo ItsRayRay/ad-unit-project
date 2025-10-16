@@ -52,6 +52,7 @@ export const config = {
       layerText: 'url(/creatives/fiat-text.png)',              // Layer 2: Second Product.png
       layerCar: 'url(/creatives/fiat-car.png)',                // Layer 3: Main Product.png
       layerRocks: 'url(/creatives/fiat-rocks.png)',            // Layer 4: Rocks overlay
+      floatingRocks: 'url(/creatives/adunit1-rock-overlay.png)', // Floating rocks extending below the unit
 
       // Fallback text (not used with layer system, but kept for compatibility)
       fallbackText: {
