@@ -319,6 +319,70 @@ import { config } from '../config.js';
 				/* Mobile: 375px × 80px - To replace: background-image: url('/creatives/mobile-cta-banner-1.jpg'); */
 			}
 
+			/* ============================================ */
+			/* AD UNIT 1 - STACKED LAYERS (SCOPED) */
+			/* ============================================ */
+
+			/* Wrapper keeps flexbox for height, but positions children absolutely */
+			[data-ad="unit-1"] .creative-wrapper.parallax-up {
+				position: relative;
+				z-index: 2; /* ensure moving layers sit above fixed background */
+			}
+
+			/* FIXED LAYERS (outside wrapper - don't scroll) */
+			/* Layer 1: Background - FIXED */
+			[data-ad="unit-1"] .layer-background {
+				position: absolute;
+				width: 100%;
+				height: 100%;
+				top: 0;
+				left: 0;
+				z-index: 1;
+				background-size: cover;
+				background-position: center;
+				background-repeat: no-repeat;
+				pointer-events: none;
+			}
+
+			/* Layer 4: Rocks - FIXED (not used, transparent) */
+			[data-ad="unit-1"] .layer-rocks {
+				position: absolute;
+				width: 100%;
+				height: 100%;
+				top: 0;
+				left: 0;
+				z-index: 4;
+				background: transparent;
+				pointer-events: none;
+			}
+
+			/* MOVING LAYERS (inside wrapper - scroll with parallax) */
+			/* Layer 2: Text */
+			[data-ad="unit-1"] .layer-text {
+				position: absolute;
+				width: 100%;
+				height: 100%;
+				top: 0;
+				left: 0;
+				z-index: 2;
+				background-size: contain;
+				background-position: center;
+				background-repeat: no-repeat;
+			}
+
+			/* Layer 3: Car */
+			[data-ad="unit-1"] .layer-car {
+				position: absolute;
+				width: 100%;
+				height: 100%;
+				top: 0;
+				left: 0;
+				z-index: 3;
+				background-size: contain;
+				background-position: center;
+				background-repeat: no-repeat;
+			}
+
 			/* QR Code (Desktop only) */
 			.qr-code {
 				display: none;
@@ -362,9 +426,10 @@ import { config } from '../config.js';
 
 		<!-- Creative background images from config -->
 		<style define:vars={{
-			adUnit1ProductMain: config.creatives.adUnit1.productMain,
-			adUnit1ProductSecondary: config.creatives.adUnit1.productSecondary,
-			adUnit1CtaBanner: config.creatives.adUnit1.ctaBanner,
+			adUnit1LayerBackground: config.creatives.adUnit1.layerBackground,
+			adUnit1LayerText: config.creatives.adUnit1.layerText,
+			adUnit1LayerCar: config.creatives.adUnit1.layerCar,
+			adUnit1LayerRocks: config.creatives.adUnit1.layerRocks,
 			adUnit2ProductMain: config.creatives.adUnit2.productMain,
 			adUnit2ProductSecondary: config.creatives.adUnit2.productSecondary,
 			adUnit2CtaBanner: config.creatives.adUnit2.ctaBanner
@@ -374,17 +439,21 @@ import { config } from '../config.js';
 			/* Update paths in src/config.js */
 			/* ============================================ */
 
-			/* Ad Unit 1 */
-			[data-ad="unit-1"] .product-main {
-				background-image: url(var(--adUnit1ProductMain));
+			/* Ad Unit 1 - 4 Stacked Layers */
+			[data-ad="unit-1"] .layer-background {
+				background-image: var(--adUnit1LayerBackground);
 			}
 
-			[data-ad="unit-1"] .product-secondary {
-				background-image: url(var(--adUnit1ProductSecondary));
+			[data-ad="unit-1"] .layer-text {
+				background-image: var(--adUnit1LayerText);
 			}
 
-			[data-ad="unit-1"] .cta-banner {
-				background-image: url(var(--adUnit1CtaBanner));
+			[data-ad="unit-1"] .layer-car {
+				background-image: var(--adUnit1LayerCar);
+			}
+
+			[data-ad="unit-1"] .layer-rocks {
+				background-image: var(--adUnit1LayerRocks);
 			}
 
 			/* Ad Unit 2 */
@@ -451,13 +520,15 @@ import { config } from '../config.js';
 						<span class="ad-label">Advertisement</span>
 						<div class="ad-content">
 							<!-- CREATIVE #1: Managed from src/config.js -->
+							<!-- BG outside wrapper = FIXED (doesn't scroll) -->
+							<div class="layer-background"></div>
+							<!-- Moving layers inside wrapper = ANIMATE (scroll with parallax) -->
 							<div class="creative-wrapper parallax-up">
-								<div class="creative-top">
-									<div class="product-main">{config.creatives.adUnit1.fallbackText.productMain}</div>
-									<div class="product-secondary"></div>
-								</div>
-								<div class="cta-banner">{config.creatives.adUnit1.fallbackText.ctaBanner}</div>
+								<div class="layer-text"></div>
+								<div class="layer-car"></div>
 							</div>
+							<!-- Rocks outside too (transparent, not used) -->
+							<div class="layer-rocks"></div>
 						</div>
 					</div>
 

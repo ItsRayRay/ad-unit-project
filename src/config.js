@@ -46,16 +46,17 @@ export const config = {
   // All paths are relative to /public/ folder
 
   creatives: {
-    // Ad Unit 1 (slides UP from below)
+    // Ad Unit 1 (4 stacked layers - parallax effect)
     adUnit1: {
-      productMain: '/creatives/ad1-product-main.jpg',     // Left section
-      productSecondary: '/creatives/ad1-product-secondary.jpg', // Right section
-      ctaBanner: '/creatives/ad1-cta-banner.jpg',         // Bottom section
+      layerBackground: 'url(/creatives/fiat-background.png)',  // Layer 1: BG.png - Background
+      layerText: 'url(/creatives/fiat-text.png)',              // Layer 2: Second Product.png
+      layerCar: 'url(/creatives/fiat-car.png)',                // Layer 3: Main Product.png
+      layerRocks: 'url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNkYPhfDwAChwGA60e6kgAAAABJRU5ErkJggg==)', // Transparent 1x1 PNG
 
-      // Fallback text (displayed if images don't load)
+      // Fallback text (not used with layer system, but kept for compatibility)
       fallbackText: {
-        productMain: 'ADORE',
-        ctaBanner: 'Discover the Power'
+        productMain: 'FIAT',
+        ctaBanner: 'Fancy a taste of Italy?'
       }
     },
 
