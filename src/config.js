@@ -66,6 +66,7 @@ export const config = {
       layerText: 'url(/creatives/adunit2/text.png)',              // Layer 2: Text overlay (placeholder)
       layerCar: 'url(/creatives/adunit2/car.png)',                // Layer 3: Car (placeholder)
       layerForeground: 'url(/creatives/adunit2/foreground.png)',  // Layer 4: Foreground elements
+      treeOverlay: 'url(/creatives/adunit2/tree-overlay.png)',    // Floating tree that sits above the unit
 
       // Fallback text (not used with layer system, but kept for compatibility)
       fallbackText: {

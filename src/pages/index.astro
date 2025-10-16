@@ -387,6 +387,36 @@ import { config } from '../config.js';
 			/* AD UNIT 2 - FALLING STACK (SCOPED) */
 			/* ============================================ */
 
+			[data-ad="unit-2"] {
+				overflow: visible;
+				margin-top: clamp(8px, 14vw, 60px);
+			}
+
+			[data-ad="unit-2"] .tree-overlay {
+				position: absolute;
+				top: 0;
+				left: 0;
+				width: 100%;
+				height: clamp(110px, 37vw, 160px);
+				background-repeat: no-repeat;
+				background-position: center bottom;
+				background-size: contain;
+				transform: translateY(calc(-100% + 12px));
+				pointer-events: none;
+				z-index: 5;
+			}
+
+			[data-ad="unit-2"] .ad-content {
+				overflow: visible;
+			}
+
+			[data-ad="unit-2"] .ad-viewport {
+				position: relative;
+				width: 100%;
+				height: 100%;
+				overflow: hidden;
+			}
+
 			[data-ad="unit-2"] .creative-wrapper.parallax-down {
 				position: relative;
 				z-index: 2; /* ensure moving layers sit above fixed background */
@@ -483,7 +513,8 @@ import { config } from '../config.js';
 			adUnit2LayerBackground: config.creatives.adUnit2.layerBackground,
 			adUnit2LayerText: config.creatives.adUnit2.layerText,
 			adUnit2LayerCar: config.creatives.adUnit2.layerCar,
-			adUnit2LayerForeground: config.creatives.adUnit2.layerForeground
+			adUnit2LayerForeground: config.creatives.adUnit2.layerForeground,
+			adUnit2TreeOverlay: config.creatives.adUnit2.treeOverlay
 		}}>
 			/* ============================================ */
 			/* CREATIVE BACKGROUNDS - MANAGED FROM CONFIG */
@@ -522,6 +553,10 @@ import { config } from '../config.js';
 
 			[data-ad="unit-2"] .layer-foreground {
 				background-image: var(--adUnit2LayerForeground);
+			}
+
+			[data-ad="unit-2"] .tree-overlay {
+				background-image: var(--adUnit2TreeOverlay);
 			}
 		</style>
 	</head>
@@ -603,17 +638,20 @@ import { config } from '../config.js';
 					<!-- Second Ad Unit - Slides DOWN -->
 					<div class="ad-unit" data-ad="unit-2">
 						<span class="ad-label">Advertisement</span>
+						<div class="tree-overlay" aria-hidden="true"></div>
 						<div class="ad-content">
 							<!-- CREATIVE #2: Managed from src/config.js -->
 							<!-- Background stays fixed -->
-							<div class="layer-background"></div>
-							<div class="creative-wrapper parallax-down">
-								<!-- Moving layers fall into place -->
-								<div class="layer-text"></div>
-								<div class="layer-car"></div>
+							<div class="ad-viewport">
+								<div class="layer-background"></div>
+								<div class="creative-wrapper parallax-down">
+									<!-- Moving layers fall into place -->
+									<div class="layer-text"></div>
+									<div class="layer-car"></div>
+								</div>
+								<!-- Foreground overlay fixed on top -->
+								<div class="layer-foreground"></div>
 							</div>
-							<!-- Foreground overlay fixed on top -->
-							<div class="layer-foreground"></div>
 						</div>
 					</div>
 
@@ -648,6 +686,60 @@ import { config } from '../config.js';
 				// Detect if we're on desktop (in phone frame) or mobile
 				const isDesktop = window.innerWidth >= 768;
 				const scrollContainer = isDesktop ? document.querySelector('.phone-screen') : null;
+				const showcaseOffset = 40;
+				const smoothDuration = 500; // ms
+
+				// Auto-scroll showcase directly to the first ad unit
+				const firstAdUnit = document.querySelector('[data-ad="unit-1"]');
+				if (firstAdUnit) {
+					const smoothScrollTo = (element, target) => {
+						const start = element ? element.scrollTop : window.pageYOffset;
+						const change = target - start;
+						const startTime = performance.now();
+
+						const animateScroll = (currentTime) => {
+							const elapsed = currentTime - startTime;
+							const progress = Math.min(elapsed / smoothDuration, 1);
+							const eased = progress < 0.5
+								? 4 * progress * progress * progress
+								: 1 - Math.pow(-2 * progress + 2, 3) / 2;
+							const position = start + change * eased;
+
+							if (element) {
+								element.scrollTop = position;
+							} else {
+								window.scrollTo(0, position);
+							}
+
+							if (progress < 1) {
+								requestAnimationFrame(animateScroll);
+							}
+						};
+
+						requestAnimationFrame(animateScroll);
+					};
+
+					const scrollToFirstAd = () => {
+						if (scrollContainer) {
+							const containerRect = scrollContainer.getBoundingClientRect();
+							const adRect = firstAdUnit.getBoundingClientRect();
+							const target = Math.max(
+								0,
+								scrollContainer.scrollTop + adRect.top - containerRect.top - showcaseOffset
+							);
+							smoothScrollTo(scrollContainer, target);
+						} else {
+							const adRect = firstAdUnit.getBoundingClientRect();
+							const target = Math.max(0, window.pageYOffset + adRect.top - showcaseOffset);
+							smoothScrollTo(null, target);
+						}
+					};
+
+					// Delay until layout settles to avoid jumpiness
+					requestAnimationFrame(() => {
+						setTimeout(scrollToFirstAd, 180);
+					});
+				}
 
 				// First ad unit - starts VISIBLE, slides DOWN/OUT as you scroll
 				// Creates transition effect to second ad
@@ -705,6 +797,7 @@ import { config } from '../config.js';
 					}
 
 					scroll(animation2, scrollOptions2);
+
 				}
 
 				// Generate QR Code
