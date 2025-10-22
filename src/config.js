@@ -51,6 +51,7 @@ export const config = {
       layerBackground: `url(${import.meta.env.BASE_URL}/creatives/fiat-background.png)`,  // Layer 1: BG.png - Background
       layerText: `url(${import.meta.env.BASE_URL}/creatives/fiat-text.png)`,              // Layer 2: Second Product.png
       layerCar: `url(${import.meta.env.BASE_URL}/creatives/fiat-car.png)`,                // Layer 3: Main Product.png
+      layerLogo: `url(${import.meta.env.BASE_URL}/creatives/fiat-logo.png)`,              // Layer 4: Fiat Logo (highest z-index)
       floatingRocks: `url(${import.meta.env.BASE_URL}/creatives/adunit1-rock-overlay.png)`, // Floating rocks extending below the unit
 
       // Fallback text (not used with layer system, but kept for compatibility)
