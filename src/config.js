@@ -48,10 +48,10 @@ export const config = {
   creatives: {
     // Ad Unit 1 (4 stacked layers - parallax effect)
     adUnit1: {
-      layerBackground: 'url(/creatives/fiat-background.png)',  // Layer 1: BG.png - Background
-      layerText: 'url(/creatives/fiat-text.png)',              // Layer 2: Second Product.png
-      layerCar: 'url(/creatives/fiat-car.png)',                // Layer 3: Main Product.png
-      floatingRocks: 'url(/creatives/adunit1-rock-overlay.png)', // Floating rocks extending below the unit
+      layerBackground: `url(${import.meta.env.BASE_URL}creatives/fiat-background.png)`,  // Layer 1: BG.png - Background
+      layerText: `url(${import.meta.env.BASE_URL}creatives/fiat-text.png)`,              // Layer 2: Second Product.png
+      layerCar: `url(${import.meta.env.BASE_URL}creatives/fiat-car.png)`,                // Layer 3: Main Product.png
+      floatingRocks: `url(${import.meta.env.BASE_URL}creatives/adunit1-rock-overlay.png)`, // Floating rocks extending below the unit
 
       // Fallback text (not used with layer system, but kept for compatibility)
       fallbackText: {
@@ -62,11 +62,11 @@ export const config = {
 
     // Ad Unit 2 (falls down - 4 layer system)
     adUnit2: {
-      layerBackground: 'url(/creatives/adunit2/background.png)',  // Layer 1: Background (placeholder)
-      layerText: 'url(/creatives/adunit2/text.png)',              // Layer 2: Text overlay (placeholder)
-      layerCar: 'url(/creatives/adunit2/car.png)',                // Layer 3: Car (placeholder)
-      layerForeground: 'url(/creatives/adunit2/foreground.png)',  // Layer 4: Foreground elements
-      treeOverlay: 'url(/creatives/adunit2/tree-overlay.png)',    // Floating tree that sits above the unit
+      layerBackground: `url(${import.meta.env.BASE_URL}creatives/adunit2/background.png)`,  // Layer 1: Background (placeholder)
+      layerText: `url(${import.meta.env.BASE_URL}creatives/adunit2/text.png)`,              // Layer 2: Text overlay (placeholder)
+      layerCar: `url(${import.meta.env.BASE_URL}creatives/adunit2/car.png)`,                // Layer 3: Car (placeholder)
+      layerForeground: `url(${import.meta.env.BASE_URL}creatives/adunit2/foreground.png)`,  // Layer 4: Foreground elements
+      treeOverlay: `url(${import.meta.env.BASE_URL}creatives/adunit2/tree-overlay.png)`,    // Floating tree that sits above the unit
 
       // Fallback text (not used with layer system, but kept for compatibility)
       fallbackText: {
