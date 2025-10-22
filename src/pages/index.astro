@@ -512,6 +512,63 @@ import { config } from '../config.js';
 				transform: translateY(1px);
 			}
 
+			/* Questionnaire Button */
+			.questionnaire-button-wrapper {
+				padding: 40px 20px;
+				text-align: center;
+			}
+
+			.questionnaire-button {
+				background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+				color: white;
+				border: none;
+				padding: 16px 40px;
+				font-size: 1.1rem;
+				font-weight: 600;
+				border-radius: 8px;
+				cursor: pointer;
+				box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+				transition: all 0.3s ease;
+				text-transform: uppercase;
+				letter-spacing: 1px;
+			}
+
+			.questionnaire-button:hover {
+				transform: translateY(-2px);
+				box-shadow: 0 6px 20px rgba(102, 126, 234, 0.6);
+			}
+
+			.questionnaire-button:active {
+				transform: translateY(0);
+			}
+
+			/* Questionnaire Section */
+			.questionnaire-section {
+				padding: 60px 20px;
+				background: #f9fafb;
+				border-top: 2px solid #e5e7eb;
+			}
+
+			.questionnaire-container {
+				max-width: 800px;
+				margin: 0 auto;
+			}
+
+			.questionnaire-container h2 {
+				font-size: 1.5rem;
+				color: #1a202c;
+				margin-bottom: 20px;
+				text-align: center;
+			}
+
+			.questionnaire-iframe {
+				width: 100%;
+				min-height: 600px;
+				border: 1px solid #e5e7eb;
+				border-radius: 8px;
+				background: white;
+			}
+
 			/* ============================================ */
 			/* AD UNIT 2 - FALLING STACK (SCOPED) */
 			/* ============================================ */
@@ -817,6 +874,26 @@ import { config } from '../config.js';
 							that are effective, beneficial, and respectful.
 						</p>
 					</section>
+
+					<!-- Questionnaire Button -->
+					<div class="questionnaire-button-wrapper">
+						<button class="questionnaire-button" id="scroll-to-questionnaire">
+							Go to Questionnaire
+						</button>
+					</div>
+
+					<!-- Questionnaire Section -->
+					<section class="questionnaire-section" id="questionnaire-section">
+						<div class="questionnaire-container">
+							<h2>Questionnaire</h2>
+							<!-- Iframe will be embedded here later -->
+							<div class="questionnaire-iframe">
+								<p style="text-align: center; padding: 100px 20px; color: #6b7280;">
+									Questionnaire will be loaded here
+								</p>
+							</div>
+						</div>
+					</section>
 				</div>
 
 				<!-- Browser Chrome Bottom (Desktop only) -->
@@ -893,6 +970,37 @@ import { config } from '../config.js';
 						konamiIndex = 0;
 					}
 				});
+
+				// Questionnaire Button Scroll
+				const questionnaireButton = document.getElementById('scroll-to-questionnaire');
+				const questionnaireSection = document.getElementById('questionnaire-section');
+
+				if (questionnaireButton && questionnaireSection) {
+					questionnaireButton.addEventListener('click', () => {
+						const isDesktop = window.innerWidth >= 768;
+						const scrollContainer = isDesktop ? document.querySelector('.phone-screen') : null;
+						const offset = 50; // Scroll a little above the section
+
+						if (scrollContainer) {
+							// Desktop: scroll within phone frame
+							const containerRect = scrollContainer.getBoundingClientRect();
+							const sectionRect = questionnaireSection.getBoundingClientRect();
+							const targetPosition = scrollContainer.scrollTop + sectionRect.top - containerRect.top - offset;
+
+							scrollContainer.scrollTo({
+								top: targetPosition,
+								behavior: 'smooth'
+							});
+						} else {
+							// Mobile: scroll entire page
+							const sectionTop = questionnaireSection.offsetTop - offset;
+							window.scrollTo({
+								top: sectionTop,
+								behavior: 'smooth'
+							});
+						}
+					});
+				}
 
 				// Detect if we're on desktop (in phone frame) or mobile
 				const isDesktop = window.innerWidth >= 768;
