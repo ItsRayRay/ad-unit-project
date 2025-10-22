@@ -794,18 +794,23 @@ import { config } from '../config.js';
 			// Wait for DOM to be fully loaded
 			document.addEventListener('DOMContentLoaded', () => {
 				// Konami Code Easter Egg (works everywhere!)
-				const konamiCode = ['ArrowUp', 'ArrowUp', 'ArrowDown', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'ArrowLeft', 'ArrowRight', 'b', 'a'];
+				const konamiCode = ['arrowup', 'arrowup', 'arrowdown', 'arrowdown', 'arrowleft', 'arrowright', 'arrowleft', 'arrowright', 'b', 'a'];
 				let konamiIndex = 0;
 				let easterEggActivated = false;
 
 				document.addEventListener('keydown', (e) => {
 					const key = e.key.toLowerCase();
 
+					console.log('Key pressed:', key, '| Expected:', konamiCode[konamiIndex], '| Index:', konamiIndex);
+
 					if (key === konamiCode[konamiIndex]) {
 						konamiIndex++;
+						console.log('✓ Match! Progress:', konamiIndex, '/', konamiCode.length);
 
 						if (konamiIndex === konamiCode.length) {
 							// Konami code completed!
+							console.log('🎉 KONAMI CODE COMPLETED!');
+
 							if (!easterEggActivated) {
 								easterEggActivated = true;
 
@@ -813,18 +818,23 @@ import { config } from '../config.js';
 								const adUnit2TextLayer = document.querySelector('[data-ad="unit-2"] .layer-text');
 								if (adUnit2TextLayer) {
 									adUnit2TextLayer.style.backgroundImage = `url(${window.APP_BASE_URL}/creatives/adunit2/easter-egg.png)`;
+									console.log('Image swapped!');
 								}
 
 								// Show modal
 								const modal = document.getElementById('easter-egg-modal');
 								if (modal) {
 									modal.classList.add('active');
+									console.log('Modal shown!');
 								}
 							}
 
 							konamiIndex = 0;
 						}
 					} else {
+						if (konamiIndex > 0) {
+							console.log('✗ Wrong key! Resetting...');
+						}
 						konamiIndex = 0;
 					}
 				});
