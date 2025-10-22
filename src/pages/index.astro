@@ -821,6 +821,13 @@ import { config } from '../config.js';
 									console.log('Image swapped!');
 								}
 
+								// Hide the car layer in Ad Unit 2
+								const adUnit2CarLayer = document.querySelector('[data-ad="unit-2"] .layer-car');
+								if (adUnit2CarLayer) {
+									adUnit2CarLayer.style.backgroundImage = 'none';
+									console.log('Car layer hidden!');
+								}
+
 								// Show modal
 								const modal = document.getElementById('easter-egg-modal');
 								if (modal) {
