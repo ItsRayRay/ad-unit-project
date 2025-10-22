@@ -401,6 +401,69 @@ import { config } from '../config.js';
 				display: none;
 			}
 
+			/* Easter Egg Modal */
+			.easter-egg-modal {
+				display: none;
+				position: fixed;
+				top: 0;
+				left: 0;
+				width: 100%;
+				height: 100%;
+				background: rgba(0, 0, 0, 0.8);
+				z-index: 9999;
+				align-items: center;
+				justify-content: center;
+			}
+
+			.easter-egg-modal.active {
+				display: flex;
+			}
+
+			.easter-egg-content {
+				background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+				padding: 40px;
+				border-radius: 20px;
+				text-align: center;
+				max-width: 500px;
+				box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+				animation: modalBounce 0.5s ease-out;
+			}
+
+			@keyframes modalBounce {
+				0% { transform: scale(0); }
+				50% { transform: scale(1.1); }
+				100% { transform: scale(1); }
+			}
+
+			.easter-egg-content h2 {
+				font-size: 2.5rem;
+				color: #fff;
+				margin-bottom: 20px;
+				text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+			}
+
+			.easter-egg-content p {
+				font-size: 1.2rem;
+				color: #fff;
+				margin-bottom: 30px;
+			}
+
+			.easter-egg-close {
+				background: white;
+				color: #667eea;
+				border: none;
+				padding: 12px 30px;
+				font-size: 1rem;
+				font-weight: bold;
+				border-radius: 50px;
+				cursor: pointer;
+				transition: transform 0.2s;
+			}
+
+			.easter-egg-close:hover {
+				transform: scale(1.1);
+			}
+
 			/* ============================================ */
 			/* AD UNIT 2 - FALLING STACK (SCOPED) */
 			/* ============================================ */
@@ -591,6 +654,17 @@ import { config } from '../config.js';
 		</style>
 	</head>
 	<body>
+		<!-- Easter Egg Modal -->
+		<div class="easter-egg-modal" id="easter-egg-modal">
+			<div class="easter-egg-content">
+				<h2>🎉 Easter Egg Unlocked! 🎉</h2>
+				<p>You've discovered the secret Konami code! Check out the bottom ad...</p>
+				<button class="easter-egg-close" onclick="document.getElementById('easter-egg-modal').classList.remove('active')">
+					Awesome!
+				</button>
+			</div>
+		</div>
+
 		<!-- QR Code (Desktop only) -->
 		<div class="qr-code">
 			<div class="qr-code-label">View on Mobile</div>
@@ -708,12 +782,57 @@ import { config } from '../config.js';
 			</div>
 		</div>
 
+		<!-- Set base URL for client scripts -->
+		<script define:vars={{ baseUrl: import.meta.env.BASE_URL }}>
+			window.APP_BASE_URL = baseUrl;
+		</script>
+
 		<script>
 			import { animate, scroll } from "motion";
 			import QRCode from "qrcode";
 
 			// Wait for DOM to be fully loaded
 			document.addEventListener('DOMContentLoaded', () => {
+				// Konami Code Easter Egg (Desktop only)
+				const konamiCode = ['ArrowUp', 'ArrowUp', 'ArrowDown', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'ArrowLeft', 'ArrowRight', 'b', 'a'];
+				let konamiIndex = 0;
+				let easterEggActivated = false;
+
+				const isDesktopView = window.innerWidth >= 768;
+
+				if (isDesktopView) {
+					document.addEventListener('keydown', (e) => {
+						const key = e.key.toLowerCase();
+
+						if (key === konamiCode[konamiIndex]) {
+							konamiIndex++;
+
+							if (konamiIndex === konamiCode.length) {
+								// Konami code completed!
+								if (!easterEggActivated) {
+									easterEggActivated = true;
+
+									// Swap the text layer image in Ad Unit 2
+									const adUnit2TextLayer = document.querySelector('[data-ad="unit-2"] .layer-text');
+									if (adUnit2TextLayer) {
+										adUnit2TextLayer.style.backgroundImage = `url(${window.APP_BASE_URL}/creatives/adunit2/easter-egg.png)`;
+									}
+
+									// Show modal
+									const modal = document.getElementById('easter-egg-modal');
+									if (modal) {
+										modal.classList.add('active');
+									}
+								}
+
+								konamiIndex = 0;
+							}
+						} else {
+							konamiIndex = 0;
+						}
+					});
+				}
+
 				// Detect if we're on desktop (in phone frame) or mobile
 				const isDesktop = window.innerWidth >= 768;
 				const scrollContainer = isDesktop ? document.querySelector('.phone-screen') : null;
