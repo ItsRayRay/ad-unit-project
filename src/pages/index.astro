@@ -793,45 +793,41 @@ import { config } from '../config.js';
 
 			// Wait for DOM to be fully loaded
 			document.addEventListener('DOMContentLoaded', () => {
-				// Konami Code Easter Egg (Desktop only)
+				// Konami Code Easter Egg (works everywhere!)
 				const konamiCode = ['ArrowUp', 'ArrowUp', 'ArrowDown', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'ArrowLeft', 'ArrowRight', 'b', 'a'];
 				let konamiIndex = 0;
 				let easterEggActivated = false;
 
-				const isDesktopView = window.innerWidth >= 768;
+				document.addEventListener('keydown', (e) => {
+					const key = e.key.toLowerCase();
 
-				if (isDesktopView) {
-					document.addEventListener('keydown', (e) => {
-						const key = e.key.toLowerCase();
+					if (key === konamiCode[konamiIndex]) {
+						konamiIndex++;
 
-						if (key === konamiCode[konamiIndex]) {
-							konamiIndex++;
+						if (konamiIndex === konamiCode.length) {
+							// Konami code completed!
+							if (!easterEggActivated) {
+								easterEggActivated = true;
 
-							if (konamiIndex === konamiCode.length) {
-								// Konami code completed!
-								if (!easterEggActivated) {
-									easterEggActivated = true;
-
-									// Swap the text layer image in Ad Unit 2
-									const adUnit2TextLayer = document.querySelector('[data-ad="unit-2"] .layer-text');
-									if (adUnit2TextLayer) {
-										adUnit2TextLayer.style.backgroundImage = `url(${window.APP_BASE_URL}/creatives/adunit2/easter-egg.png)`;
-									}
-
-									// Show modal
-									const modal = document.getElementById('easter-egg-modal');
-									if (modal) {
-										modal.classList.add('active');
-									}
+								// Swap the text layer image in Ad Unit 2
+								const adUnit2TextLayer = document.querySelector('[data-ad="unit-2"] .layer-text');
+								if (adUnit2TextLayer) {
+									adUnit2TextLayer.style.backgroundImage = `url(${window.APP_BASE_URL}/creatives/adunit2/easter-egg.png)`;
 								}
 
-								konamiIndex = 0;
+								// Show modal
+								const modal = document.getElementById('easter-egg-modal');
+								if (modal) {
+									modal.classList.add('active');
+								}
 							}
-						} else {
+
 							konamiIndex = 0;
 						}
-					});
-				}
+					} else {
+						konamiIndex = 0;
+					}
+				});
 
 				// Detect if we're on desktop (in phone frame) or mobile
 				const isDesktop = window.innerWidth >= 768;
