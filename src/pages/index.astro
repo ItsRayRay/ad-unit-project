@@ -564,11 +564,17 @@ import { config } from '../config.js';
 			}
 
 			.questionnaire-iframe {
-				width: 100%;
-				min-height: 600px;
+				width: min(100%, 340px);
+				height: 250px;
+				margin: 0 auto;
 				border: 1px solid #e5e7eb;
 				border-radius: 8px;
 				background: white;
+				position: relative;
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				overflow: hidden;
 			}
 
 			/* ============================================ */
@@ -888,12 +894,21 @@ import { config } from '../config.js';
 					<section class="questionnaire-section" id="questionnaire-section">
 						<div class="questionnaire-container">
 							<h2>Questionnaire</h2>
-							<!-- Iframe will be embedded here later -->
-							<div class="questionnaire-iframe">
-								<p style="text-align: center; padding: 100px 20px; color: #6b7280;">
-									Questionnaire will be loaded here
-								</p>
-							</div>
+								<div class="questionnaire-iframe" id="brandmetrics-questionnaire">
+									<script async src="https://collector.brandmetrics.com/show.js?pixel=afd2813ebb5245cd8c2232b138221158&amp;dtname=inad_300x250"></script>
+									<iframe
+										id="brandmetrics-frame"
+										title="Brandmetrics Questionnaire"
+										sandbox="allow-scripts"
+										data-bmsurvey=""
+										data-mid="afd2813ebb5245cd8c2232b138221158"
+										data-dtname="inad_300x250"
+										data-wrapper="0"
+										scrolling="no"
+										height="250"
+										style="position: absolute; left: 0; top: 0; border-width: 0; width: 300px; display: none;"
+									></iframe>
+								</div>
 						</div>
 					</section>
 				</div>
@@ -1002,6 +1017,37 @@ import { config } from '../config.js';
 							});
 						}
 					});
+				}
+
+				const brandmetricsFrame = document.getElementById('brandmetrics-frame');
+				if (brandmetricsFrame) {
+					const container = brandmetricsFrame.parentElement;
+					const measurementId = brandmetricsFrame.getAttribute('data-mid') || '';
+					const dtName = brandmetricsFrame.getAttribute('data-dtname') || '';
+					const wrapper = brandmetricsFrame.getAttribute('data-wrapper') || '0';
+					const defaultWidth = 300;
+					const defaultHeight = 250;
+					const containerWidth = container ? Math.max(defaultWidth, Math.round(container.clientWidth)) : defaultWidth;
+					const aspectRatio = defaultHeight / defaultWidth;
+					const clientWidth = containerWidth;
+					const clientHeight = Math.round(containerWidth * aspectRatio);
+					const params = new URLSearchParams({
+						toploc: window.location.host,
+						mid: measurementId,
+						dtname: dtName
+					});
+					params.set('clientsize', `${clientWidth},${clientHeight}`);
+					params.set('wrapper', wrapper);
+
+					brandmetricsFrame.src = `https://collector.brandmetrics.com/s.html?${params.toString()}`;
+					brandmetricsFrame.height = clientHeight;
+					brandmetricsFrame.width = defaultWidth;
+					brandmetricsFrame.style.height = `${clientHeight}px`;
+					brandmetricsFrame.style.width = `${defaultWidth}px`;
+					brandmetricsFrame.style.display = 'block';
+					if (container) {
+						container.style.height = `${clientHeight}px`;
+					}
 				}
 
 				// Detect if we're on desktop (in phone frame) or mobile
