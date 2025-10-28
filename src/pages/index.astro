@@ -520,7 +520,7 @@ import { config } from '../config.js';
 
 			.questionnaire-button {
 				background: #FFB703;
-				color: #0A2042;
+				color: #ffffff;
 				border: none;
 				padding: 16px 40px;
 				font-size: 1.1rem;
@@ -531,6 +531,7 @@ import { config } from '../config.js';
 				transition: all 0.3s ease;
 				text-transform: uppercase;
 				letter-spacing: 1px;
+				font-family: 'Poppins', sans-serif;
 			}
 
 			.questionnaire-button:hover {
@@ -890,12 +891,37 @@ import { config } from '../config.js';
 						</button>
 					</div>
 
+					<!-- Extended Blog Section -->
+					<section class="content-section">
+						<h2>Measuring Moments That Matter</h2>
+						<p>
+							Great digital stories don’t just entertain—they create a moment where a reader pauses, reflects, and
+							reshapes how they see a brand. Capturing that moment is notoriously hard, which is why modern teams
+							thread lightweight research touchpoints into the flow of the article. When a reader encounters a
+							questionnaire right after the emotional peak, the feedback arrives while memories are vivid and the
+							context is still open in another browser tab.
+						</p>
+						<p>
+							We’ve seen publishers treat these modules the same way they treat premium native blocks: careful
+							headlines, human copy, and placement that feels like a natural continuation of the narrative. Instead
+							of a jarring pop-up, it reads like the author turning to the audience and asking for their take. That
+							shift keeps attention intact and improves completion rates because the experience feels intentional,
+							not bolted on.
+						</p>
+						<p>
+							On the brand side, these in-line surveys close a vital loop. Creative strategists no longer wait weeks
+							for a post-campaign study; they can check in daily, tracking which messages resonate and which visuals
+							drop off the radar. The result is a feedback rhythm that mirrors agile product development—launch,
+							listen, iterate—keeping the storytelling sharp while respecting the reader’s time.
+						</p>
+					</section>
+
 					<!-- Questionnaire Section -->
 					<section class="questionnaire-section" id="questionnaire-section">
 						<div class="questionnaire-container">
 							<h2>Questionnaire</h2>
 								<div class="questionnaire-iframe" id="brandmetrics-questionnaire">
-									<script async src="https://collector.brandmetrics.com/show.js?pixel=afd2813ebb5245cd8c2232b138221158&amp;dtname=inad_300x250"></script>
+									<script async src="https://collector.brandmetrics.com/show.js?pixel=afd2813ebb5245cd8c2232b138221158&amp;dtname=inad_300x250&amp;slang=es"></script>
 									<iframe
 										id="brandmetrics-frame"
 										title="Brandmetrics Questionnaire"
@@ -903,6 +929,7 @@ import { config } from '../config.js';
 										data-bmsurvey=""
 										data-mid="afd2813ebb5245cd8c2232b138221158"
 										data-dtname="inad_300x250"
+										data-slang="es"
 										data-wrapper="0"
 										scrolling="no"
 										height="250"
@@ -910,6 +937,22 @@ import { config } from '../config.js';
 									></iframe>
 								</div>
 						</div>
+					</section>
+
+					<!-- Sixth Content Section -->
+					<section class="content-section">
+						<h2>Closing the Loop</h2>
+						<p>
+							The insights surfaced here don’t live in a dashboard silo. They are piped directly to our design and
+							sales pods, informing the next set of mockups, the next pitch deck, and even the next round of motion
+							tests. When readers take a minute to respond, the impact ripples outward across the entire creative
+							stack.
+						</p>
+						<p>
+							That closed feedback loop is what separates static showcase pages from living prototypes. By blending
+							media craft with continuous listening, we can evolve the story faster than the market shifts—keeping
+							clients, editors, and audiences aligned on what great advertising feels like.
+						</p>
 					</section>
 				</div>
 
@@ -1024,6 +1067,7 @@ import { config } from '../config.js';
 					const container = brandmetricsFrame.parentElement;
 					const measurementId = brandmetricsFrame.getAttribute('data-mid') || '';
 					const dtName = brandmetricsFrame.getAttribute('data-dtname') || '';
+					const slang = brandmetricsFrame.getAttribute('data-slang') || '';
 					const wrapper = brandmetricsFrame.getAttribute('data-wrapper') || '0';
 					const defaultWidth = 300;
 					const defaultHeight = 250;
@@ -1038,6 +1082,9 @@ import { config } from '../config.js';
 					});
 					params.set('clientsize', `${clientWidth},${clientHeight}`);
 					params.set('wrapper', wrapper);
+					if (slang) {
+						params.set('slang', slang);
+					}
 
 					brandmetricsFrame.src = `https://collector.brandmetrics.com/s.html?${params.toString()}`;
 					brandmetricsFrame.height = clientHeight;
